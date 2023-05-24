@@ -151,26 +151,26 @@ def calculate_results(y_true, y_pred):
   return model_results
 
 
-def plot_class_accuracy(num_classes, true_labels, predicted_labels, class_names):
+def plot_class_accuracy(num_classes, y_true, y_pred, classes):
   class_accuracy = []
   for class_label in range(num_classes):
-    class_indices = np.where(true_labels == class_label)
-    class_true_labels = true_labels[class_indices]
-    class_predicted_labels = predicted_labels[class_indices]
+    class_indices = np.where(y_true == class_label)
+    class_true_labels = y_true[class_indices]
+    class_predicted_labels = y_pred[class_indices]
     class_accuracy.append(np.mean(class_true_labels == class_predicted_labels))
 
   # Plotting the bar chart
   plt.figure(figsize=(10, 6))
   plt.bar(range(num_classes), class_accuracy)
-  plt.xticks(range(num_classes), class_names)
+  plt.xticks(range(num_classes), classes)
   plt.xlabel('Class Label')
   plt.ylabel('Accuracy')
   plt.title('Class-wise Accuracy')
   plt.show();
    
 
-def plot_random_misclassified_images(true_labels, predicted_labels, images, class_names):
-  result = np.absolute(true_labels - predicted_labels)
+def plot_random_misclassified_images(y_true, y_pred, images, classes):
+  result = np.absolute(y_true - y_pred)
   misclassified_images = np.where(result > 0)[0]
     
   random_indices = random.sample(list(misclassified_images), k=25)
@@ -180,7 +180,7 @@ def plot_random_misclassified_images(true_labels, predicted_labels, images, clas
     plt.subplot(5, 5, i + 1, xticks=[], yticks=[])
     image_data = images[image_index]
     plt.imshow(image_data/255)
-    plt.title(f'True: {class_names[true_labels[image_index]]}\nPredicted: {class_names[predicted_labels[image_index]]}')
+    plt.title(f'True: {classes[y_true[image_index]]}\nPredicted: {class_names[y_pred[image_index]]}')
     plt.axis('off')
   plt.tight_layout()
   plt.show();
