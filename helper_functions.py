@@ -180,7 +180,7 @@ def plot_random_misclassified_images(y_true, y_pred, images, classes):
     plt.subplot(5, 5, i + 1, xticks=[], yticks=[])
     image_data = images[image_index]
     plt.imshow(image_data/255)
-    plt.title(f'True: {classes[y_true[image_index]]}\nPredicted: {class_names[y_pred[image_index]]}')
+    plt.title(f'True: {classes[y_true[image_index]]}\nPredicted: {classes[y_pred[image_index]]}')
     plt.axis('off')
   plt.tight_layout()
   plt.show();
