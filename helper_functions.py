@@ -168,3 +168,47 @@ def calculate_results(y_true, y_pred):
                   "recall": model_recall,
                   "f1": model_f1}
   return model_results
+
+
+def plot_class_accuracy(num_classes, true_labels, predicted_labels, class_names):
+    class_accuracy = []
+    for class_label in range(num_classes):
+        class_indices = np.where(true_labels == class_label)
+        class_true_labels = true_labels[class_indices]
+        class_predicted_labels = predicted_labels[class_indices]
+        class_accuracy.append(np.mean(class_true_labels == class_predicted_labels))
+
+    # Plotting the bar chart
+    plt.figure(figsize=(10, 6))
+    plt.bar(range(num_classes), class_accuracy)
+    plt.xticks(range(num_classes), class_names)
+    plt.xlabel('Class Label')
+    plt.ylabel('Accuracy')
+    plt.title('Class-wise Accuracy')
+    plt.show();
+   
+def plot_random_misclassified_images(true_labels, predicted_labels, images, class_names):
+    result = np.absolute(true_labels - predicted_labels)
+    misclassified_images = np.where(result > 0)[0]
+    
+    random_indices = random.sample(list(misclassified_images), k=25)
+
+    plt.figure(figsize=(12, 12))
+    for i, image_index in enumerate(random_indices):
+        plt.subplot(5, 5, i + 1, xticks=[], yticks=[])
+        image_data = images[image_index]
+        plt.imshow(image_data/255)
+        plt.title(f'True: {class_names[true_labels[image_index]]}\nPredicted: {class_names[predicted_labels[image_index]]}')
+        plt.axis('off')
+    plt.tight_layout()
+    plt.show();
+    
+ def plot_prediction_confidence_histogram(predictions):
+  
+    max_confidence = np.max(predictions, axis=1)
+    plt.figure(figsize=(10, 6))
+    plt.hist(max_confidence, bins=10, edgecolor='black')
+    plt.xlabel('Maximum Confidence')
+    plt.ylabel('Frequency')
+    plt.title('Prediction Confidence Histogram')
+    plt.show();
