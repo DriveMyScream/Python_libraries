@@ -151,7 +151,7 @@ def calculate_results(y_true, y_pred):
   return model_results
 
 
-def plot_class_accuracy(num_classes, y_true, y_pred, classes):
+def plot_class_accuracy(num_classes, y_true, y_pred, classes, figsize=(10, 6)):
   class_accuracy = []
   for class_label in range(num_classes):
     class_indices = np.where(y_true == class_label)
@@ -160,13 +160,13 @@ def plot_class_accuracy(num_classes, y_true, y_pred, classes):
     class_accuracy.append(np.mean(class_true_labels == class_predicted_labels))
 
   # Plotting the bar chart
-  plt.figure(figsize=(10, 6))
+  plt.figure(figsize=figsize)
   plt.bar(range(num_classes), class_accuracy)
   plt.xticks(range(num_classes), classes)
   plt.xlabel('Class Label')
   plt.ylabel('Accuracy')
   plt.title('Class-wise Accuracy')
-  plt.show();
+  plt.show()
    
 
 def plot_random_misclassified_images(y_true, y_pred, images, classes):
