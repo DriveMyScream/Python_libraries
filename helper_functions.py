@@ -170,20 +170,23 @@ def plot_class_accuracy(num_classes, y_true, y_pred, classes, figsize=(10, 6)):
    
 
 def plot_random_misclassified_images(y_true, y_pred, images, classes):
-  result = np.absolute(y_true - y_pred)
-  misclassified_images = np.where(result > 0)[0]
+    result = np.absolute(y_true - y_pred)
+    misclassified_indices = np.where(result > 0)[0]
     
-  random_indices = random.sample(list(misclassified_images), k=25)
+    random_indices = random.sample(list(misclassified_indices), k=25)
 
-  plt.figure(figsize=(12, 12))
-  for i, image_index in enumerate(random_indices):
-    plt.subplot(5, 5, i + 1, xticks=[], yticks=[])
-    image_data = images[image_index]
-    plt.imshow(image_data/255)
-    plt.title(f'True: {classes[y_true[image_index]]}\nPredicted: {classes[y_pred[image_index]]}')
-    plt.axis('off')
-  plt.tight_layout()
-  plt.show();
+    plt.figure(figsize=(12, 12))
+    for i, image_index in enumerate(random_indices):
+        plt.subplot(5, 5, i + 1, xticks=[], yticks=[])
+        image_data = images[image_index]
+        true_class = int(y_true[image_index])
+        predicted_class = int(y_pred[image_index])
+        
+        plt.imshow(image_data/255)
+        plt.title(f'True: {classes[true_class]}\nPredicted: {classes[predicted_class]}')
+        plt.axis('off')
+    plt.tight_layout()
+    plt.show()
     
 def plot_prediction_confidence_histogram(predictions):
   
